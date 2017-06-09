@@ -3,17 +3,17 @@ from django_mysql.models import JSONField
 from users.models import User
 
 
-class Spec(models.Model):
+class SpecType(models.Model):
     name = models.CharField(max_length=50)
-    created_date = models.DateTimeField()
-    type = models.ForeignKey(SpecType, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
-class SpecType(models.Model):
+class Spec(models.Model):
     name = models.CharField(max_length=50)
+    created_date = models.DateTimeField()
+    type = models.ForeignKey(SpecType, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -100,7 +100,7 @@ class Question(models.Model):
 
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    content = models.TextField(max_length=2000)
+    content = models.TextField(max_length=2000, blank=True, null=True)
     type = models.SmallIntegerField(choices=TYPE_CHOICES)
     additional_params = JSONField()
     created_date = models.DateTimeField()

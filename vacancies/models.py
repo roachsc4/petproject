@@ -12,7 +12,7 @@ class Vacancy(models.Model):
                     (PROJECT, 'Single project'))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    trainee = models.ManyToManyField(User, through='TraineeVacancy')
+    trainee = models.ManyToManyField(User, through='TraineeVacancy', related_name='trainees')
     spec = models.ManyToManyField(Spec)
 
     name = models.CharField(max_length=50)
