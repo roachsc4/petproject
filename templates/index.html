@@ -2,11 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>Welcome!</title>
 </head>
 <body>
-    <h1>Welcome to our trainee site!</h1>
-    <p>Please <a href="{% url 'users:login' %}">login</a></p>
-    <p>or <a href="{% url 'users:register' %}">register</a></p>
+    <div class="jumbotron text-center">
+        <h1>Welcome to our trainee site!</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">Please <a href="{% url 'users:login' %}">login</a>
+                    or <a href="{% url 'users:register' %}">register</a></p>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

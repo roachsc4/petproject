@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name='index'),
     url(r'^', include('users.urls')),
+    url(r'^', include('vacancies.urls')),
+
 ]

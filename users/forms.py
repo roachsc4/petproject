@@ -1,6 +1,8 @@
 from django import forms
 from django.utils import timezone
-from .models import User
+from users.models import User, TraineeInfo
+from django.forms.widgets import DateInput
+from django.contrib.admin import widgets
 
 
 class UserCreationForm(forms.ModelForm):
@@ -27,3 +29,23 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class TraineeInfoForm(forms.ModelForm):
+    class Meta:
+        model = TraineeInfo
+        exclude = ['user']
+        widgets = {
+            'birth_date': widgets.AdminDateWidget()
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(TraineeInfoForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        trainee_info = super(TraineeInfoForm, self).save(commit=False)
+        trainee_info.user = self.user
+        if commit:
+            trainee_info.save()
+        return trainee_info

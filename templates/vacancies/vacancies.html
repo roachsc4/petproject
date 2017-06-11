@@ -1,0 +1,26 @@
+{% extends "main.html" %} {%block title%}Vacancies{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Vacancies</h2>
+                {% if user.is_authenticated and user.is_admin %}
+                    <a href="">Add new vacancy</a>
+                {% endif %}
+                <ul>
+                {% for vacancy in object_list %}
+                    <li>{{ vacancy.name }}</li>
+                    <li>{{ vacancy.get_type_display }}</li>
+                    <li>{{ vacancy.dsc }}</li>
+                    <li>{{ vacancy.created_date }}</li>
+                    <li>{{ vacancy.is_remote }}</li>
+                {% empty %}
+                    <li>No vacancies yet</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

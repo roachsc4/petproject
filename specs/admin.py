@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Spec, SpecType, Lesson, Test, Question, Answer
+from specs.models import Spec, SpecType, Lesson, Test, Question, Answer
 
 admin.site.register(Spec)
 admin.site.register(SpecType)

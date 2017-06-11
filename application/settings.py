@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -78,12 +82,12 @@ WSGI_APPLICATION = 'application.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'startup',
-        'USER': 'roachsc4',
-        'PASSWORD': '52sofupa',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': config['db']['ENGINE'],
+        'NAME': config['db']['NAME'],
+        'USER': config['db']['USER'],
+        'PASSWORD': config['db']['PASSWORD'],
+        'HOST': config['db']['HOST'],
+        'PORT': config['db']['PORT'],
     }
 }
 
@@ -127,3 +131,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.User'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
