@@ -10,7 +10,6 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            created_date=timezone.now(),
         )
         user.is_admin = False
         user.set_password(password)

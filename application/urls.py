@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^', include('users.urls')),
     url(r'^', include('vacancies.urls')),
+    url(r'^', include('specs.urls')),
 
 ]

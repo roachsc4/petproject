@@ -31,21 +31,25 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 
+class CustomDateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class TraineeInfoForm(forms.ModelForm):
     class Meta:
         model = TraineeInfo
         exclude = ['user']
         widgets = {
-            'birth_date': widgets.AdminDateWidget()
+            'birth_date': CustomDateInput(),
         }
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        self.request = kwargs.pop("request")
         super(TraineeInfoForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
         trainee_info = super(TraineeInfoForm, self).save(commit=False)
-        trainee_info.user = self.user
+        trainee_info.user = self.request.user
         if commit:
             trainee_info.save()
         return trainee_info

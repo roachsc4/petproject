@@ -38,7 +38,7 @@ class RegisterFormView(FormView):
 
 
 class LogoutView(View):
-    def get(self, request):
+    def post(self, request):
         # Выполняем выход для пользователя, запросившего данное представление.
         logout(request)
 
@@ -52,10 +52,10 @@ class ProfileView(TemplateView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        context['info'] = TraineeInfo(user=self.request.user)
+        context['info'] = TraineeInfo.objects.get(user=self.request.user)
         return context
 
-
+@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
 class TraineeInfoCreateView(FormView):
     form_class = TraineeInfoForm
     template_name = 'users/edit_profile.html'
@@ -63,18 +63,18 @@ class TraineeInfoCreateView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super(TraineeInfoCreateView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
+        kwargs.update({'request': self.request})
         return kwargs
 
-    def form_valid(self, form):
-        #import ipdb; import pprint; pp = pprint.PrettyPrinter(indent=4); ipdb.set_trace()
-        form.save()
+    #def form_valid(self, form):
+        #import ipdb; ipdb.set_trace(context=7)
+        #form.save()
 
         return super(TraineeInfoCreateView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        import ipdb;ipdb.set_trace()
-        return super(TraineeInfoCreateView, self).form_invalid(form)
+    #def form_invalid(self, form):
+        #import ipdb;ipdb.set_trace()
+        #return super(TraineeInfoCreateView, self).form_invalid(form)
 
         #import ipdb;
         #ipdb.set_trace()

@@ -17,7 +17,6 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            created_date=timezone.now(),
         )
         user.is_admin = False
         user.set_password(password)
@@ -39,7 +38,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('E-mail', unique=True)
-    created_date = models.DateTimeField('Creation date')
+    created = models.DateTimeField('Creation date', auto_now_add=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 

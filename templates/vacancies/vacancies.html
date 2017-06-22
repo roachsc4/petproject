@@ -7,19 +7,27 @@
             <div class="col-md-10">
                 <h2>Vacancies</h2>
                 {% if user.is_authenticated and user.is_admin %}
-                    <a href="">Add new vacancy</a>
+                    <ul class="list-group">
+                        <li><a href="{% url 'vacancies:create' %}">Add new vacancy</a></li>
+                        <li><a href="{% url 'specs:create_spec' %}">Add new spec</a></li>
+                        <li><a href="{% url 'specs:create_spec_type' %}">Add new spec type</a></li>
+                    </ul>
                 {% endif %}
-                <ul>
+
                 {% for vacancy in object_list %}
-                    <li>{{ vacancy.name }}</li>
-                    <li>{{ vacancy.get_type_display }}</li>
-                    <li>{{ vacancy.dsc }}</li>
-                    <li>{{ vacancy.created_date }}</li>
-                    <li>{{ vacancy.is_remote }}</li>
+                    <ul>
+                        <li class="list-group-item"><h3>{{ vacancy.name }}</h3></li>
+                        <li class="list-group-item">{{ vacancy.get_type_display }}</li>
+                        <li class="list-group-item">{{ vacancy.dsc }}</li>
+                        <li class="list-group-item">{{ vacancy.created }}</li>
+                        <li class="list-group-item">{{ vacancy.is_remote }}</li>
+                    </ul>
                 {% empty %}
-                    <li>No vacancies yet</li>
+                    <ul>
+                        <li>No vacancies yet</li>
+                    </ul>
                 {% endfor %}
-                </ul>
+
             </div>
         </div>
     </div>

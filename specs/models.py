@@ -12,7 +12,7 @@ class SpecType(models.Model):
 
 class Spec(models.Model):
     name = models.CharField(max_length=50)
-    created_date = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
     type = models.ForeignKey(SpecType, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -24,8 +24,8 @@ class Lesson(models.Model):
     name = models.CharField(max_length=50)
     spec = models.ForeignKey(Spec, on_delete=models.CASCADE)
     dsc = models.TextField(max_length=500)
-    created_date = models.DateTimeField()
-    update_date = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -39,7 +39,7 @@ class TraineeLesson(models.Model):
 
     trainee = models.ForeignKey(User, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    pass_date = models.DateTimeField()
+    pass_date = models.DateTimeField(auto_now_add=True)
     status = models.SmallIntegerField(choices=STATUS_CHOICES)
 
 
@@ -56,8 +56,7 @@ class Attachment(models.Model):
     name = models.CharField(max_length=50)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     type = models.SmallIntegerField(choices=TYPE_CHOICES)
-    created_date = models.DateTimeField()
-    #Как правильно хранить видео, презентации и т д в БД?
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -69,8 +68,8 @@ class Test(models.Model):
     name = models.CharField(max_length=50)
     min_score = models.SmallIntegerField()
     max_score = models.SmallIntegerField()
-    created_date = models.DateTimeField()
-    update_date = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -87,7 +86,7 @@ class TraineeTest(models.Model):
     trainee = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     status = models.SmallIntegerField(choices=STATUS_CHOICES)
-    pass_date = models.DateTimeField()
+    pass_date = models.DateTimeField(auto_now_add=True)
 
 
 class Question(models.Model):
@@ -103,8 +102,8 @@ class Question(models.Model):
     content = models.TextField(max_length=2000, blank=True, null=True)
     type = models.SmallIntegerField(choices=TYPE_CHOICES)
     additional_params = JSONField()
-    created_date = models.DateTimeField()
-    update_date = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -115,8 +114,8 @@ class Answer(models.Model):
     name = models.CharField(max_length=50)
     is_right = models.BooleanField()
     score = models.SmallIntegerField()
-    created_date = models.DateTimeField()
-    update_date = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
