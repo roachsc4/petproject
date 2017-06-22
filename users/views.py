@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.core.exceptions import ObjectDoesNotExist
 
 from users.forms import UserCreationForm, TraineeInfoForm
 from users.models import TraineeInfo, User
@@ -52,8 +53,13 @@ class ProfileView(TemplateView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        context['info'] = TraineeInfo.objects.get(user=self.request.user)
+        try:
+            context['info'] = TraineeInfo.objects.get(user=self.request.user)
+        except ObjectDoesNotExist:
+            pass
+
         return context
+
 
 @method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
 class TraineeInfoCreateView(FormView):

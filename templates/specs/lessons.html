@@ -5,37 +5,37 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10">
-                <h2>Vacancies</h2>
+                <h2>Lessons</h2>
                 {% if user.is_authenticated and user.is_admin %}
                     <ul class="list-group">
-                        <li class="list-group-item"><a href="{% url 'vacancies:create' %}">Add new vacancy</a></li>
+                        <li class="list-group-item"><a href="{% url 'specs:create_lesson' %}">Add new lesson</a></li>
                         <li class="list-group-item"><a href="{% url 'specs:create_spec' %}">Add new spec</a></li>
                         <li class="list-group-item"><a href="{% url 'specs:create_spec_type' %}">Add new spec type</a></li>
                     </ul>
                 {% endif %}
 
-                {% for vacancy in object_list %}
+                {% for lesson in object_list %}
                     <ul>
                         <li class="list-group-item">
-                            <h3>{{ vacancy.name }}</h3>
+                            <h3>{{ lesson.name }}</h3>
                             {% if user.is_superuser %}
-                                <a href="{% url 'vacancies:update' pk=vacancy.pk %}" class="btn btn-primary">Edit </a>
-                                <form action="{% url 'vacancies:delete' pk=vacancy.pk %}" method="post">
+                                <a href="{% url 'specs:update_lesson' pk=lesson.pk %}" class="btn btn-primary">Edit </a>
+                                <form action="{% url 'specs:delete_lesson' pk=lesson.pk %}" method="post">
                                     {%  csrf_token %}
-                                    <input type="hidden" name="pk" value="{{ vacancy.pk }}">
+                                    <input type="hidden" name="pk" value="{{ lesson.pk }}">
                                     <button class="btn btn-danger" type="submit">Delete</button>
                                 </form>
                             {% endif %}
                         </li>
 
-                        <li class="list-group-item">{{ vacancy.get_type_display }}</li>
-                        <li class="list-group-item">{{ vacancy.dsc }}</li>
-                        <li class="list-group-item">{{ vacancy.created }}</li>
-                        <li class="list-group-item">Is remote: {{ vacancy.is_remote|yesno:"Yes,No" }}</li>
+
+                        <li class="list-group-item">{{ lesson.dsc }}</li>
+                        <li class="list-group-item">{{ lesson.created }}</li>
+
                     </ul>
                 {% empty %}
                     <ul>
-                        <li>No vacancies yet</li>
+                        <li>No lessons yet</li>
                     </ul>
                 {% endfor %}
 

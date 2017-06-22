@@ -1,23 +1,12 @@
-from django.shortcuts import render
-from django.views.generic.edit import FormView, UpdateView, CreateView
-
-from django.contrib.auth import login, logout
-from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect
-from django.views.generic.base import View, TemplateView
+from django.views.generic.edit import FormView, UpdateView, CreateView, DeleteView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
-from django.shortcuts import redirect
-
-
 from vacancies.models import Vacancy
-from vacancies.forms import VacancyCreateForm
+from vacancies.forms import VacancyCreateForm, VacancyUpdateForm
 from django.utils import timezone
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-# Create your views here.
+from django.shortcuts import get_object_or_404, redirect
 
 
 class VacancyListView(ListView):
@@ -42,4 +31,27 @@ class VacancyCreateView(CreateView):
         kwargs.update({'request': self.request})
         return kwargs
 
+
+@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
+class VacancyUpdateView(UpdateView):
+    model = Vacancy
+    form_class = VacancyUpdateForm
+    template_name = 'vacancies/create_vacancy.html'
+    success_url = reverse_lazy('vacancies:vacancies')
+
+    def get_object(self, *args, **kwargs):
+        vacancy = get_object_or_404(Vacancy, pk=self.kwargs['pk'])
+        return vacancy
+
+    #def get(self, request, pk):
+        #return redirect(reverse_lazy('vacancies:vacancies'))
+
+
+@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
+class VacancyDeleteView(DeleteView):
+    model = Vacancy
+    success_url = reverse_lazy('vacancies:vacancies')
+
+    def get(self, request, pk):
+        return redirect(reverse_lazy('vacancies:vacancies'))
 

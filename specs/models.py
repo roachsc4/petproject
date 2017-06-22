@@ -20,7 +20,7 @@ class Spec(models.Model):
 
 
 class Lesson(models.Model):
-    trainee = models.ManyToManyField(User, through='TraineeLesson')
+    trainee = models.ManyToManyField(User, through='TraineeLesson', blank=True)
     name = models.CharField(max_length=50)
     spec = models.ForeignKey(Spec, on_delete=models.CASCADE)
     dsc = models.TextField(max_length=500)

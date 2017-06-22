@@ -5,10 +5,11 @@
     <title>{%block title%}{% endblock %}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script  src="https://code.jquery.com/jquery-3.2.1.js"   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard.css'%}">
-
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -46,10 +47,10 @@
           <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
               <ul class="nav nav-sidebar">
-                <li class="active"><a href="http://getbootstrap.com/examples/dashboard/#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="http://getbootstrap.com/examples/dashboard/#">Reports</a></li>
-                <li><a href="http://getbootstrap.com/examples/dashboard/#">Analytics</a></li>
-                <li><a href="http://getbootstrap.com/examples/dashboard/#">Export</a></li>
+                <li class="active"><a href="{% url 'vacancies:vacancies' %}">Vacancies </a></li>
+                <li><a href="{% url 'specs:lessons' %}">Lessons</a></li>
+                <li><a href="">Tests</a></li>
+                <li><a href="">Export</a></li>
               </ul>
               <ul class="nav nav-sidebar">
                 <li><a href="">Nav item</a></li>

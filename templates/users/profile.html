@@ -6,7 +6,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <h2>Profile</h2>
                 <p>E-mail: <b>{{ user.email }}</b></p>
-                <p>Created at: <b>{{ user.created_date }}</b></p>
+                <p>Created at: <b>{{ user.created }}</b></p>
                 <p>Status: {% if user.is_admin %}<span class="text-danger">Admin</span>{% else %}Trainee{% endif %}</p>
                 <p><a href="{% url 'users:change_password' %}">Change password</a></p>
                 <p><a href="{% url 'users:edit_profile' %}">Edit profile</a></p>
