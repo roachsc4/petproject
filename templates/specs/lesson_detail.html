@@ -1,0 +1,28 @@
+{% extends "main.html" %} {%block title%}Lesson detail{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2>{{ object.name }}</h2>
+                <p>Spec: {{ object.spec }}</p>
+                <p>Description: {{ object.dsc }}</p>
+
+                {% if object.iframe_link %}
+
+                <iframe width="640" height="360" src="{{ object.iframe_link|safe }}" frameborder="0" allowfullscreen></iframe>
+                {% endif %}
+
+                {% if is_finished is False %}
+                <form method="post" action="{% url 'specs:pass_lesson' pk=object.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Finish</button>
+                </form>
+                {% else %}
+                    <p><button type="button" class="btn btn-success disabled">Finished</button></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

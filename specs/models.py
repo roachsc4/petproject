@@ -24,6 +24,7 @@ class Lesson(models.Model):
     name = models.CharField(max_length=50)
     spec = models.ForeignKey(Spec, on_delete=models.CASCADE)
     dsc = models.TextField(max_length=500)
+    iframe_link = models.CharField(max_length=100, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

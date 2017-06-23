@@ -17,7 +17,7 @@
                 {% for lesson in object_list %}
                     <ul>
                         <li class="list-group-item">
-                            <h3>{{ lesson.name }}</h3>
+                            <h3><a href="{% url 'specs:lesson_detail' pk=lesson.pk %}"> {{ lesson.name }}</a></h3>
                             {% if user.is_superuser %}
                                 <a href="{% url 'specs:update_lesson' pk=lesson.pk %}" class="btn btn-primary">Edit </a>
                                 <form action="{% url 'specs:delete_lesson' pk=lesson.pk %}" method="post">
