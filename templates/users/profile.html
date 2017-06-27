@@ -9,7 +9,11 @@
                 <p>Created at: <b>{{ user.created }}</b></p>
                 <p>Status: {% if user.is_admin %}<span class="text-danger">Admin</span>{% else %}Trainee{% endif %}</p>
                 <p><a href="{% url 'users:change_password' %}">Change password</a></p>
-                <p><a href="{% url 'users:edit_profile' %}">Edit profile</a></p>
+                {% if info %}
+                    <p><a href="{% url 'users:edit_profile' %}">Edit profile</a></p>
+                {% else %}
+                    <p><a href="{% url 'users:create_profile' %}">Create profile</a></p>
+                {% endif %}
             </div>
         </div>
         {% if info %}

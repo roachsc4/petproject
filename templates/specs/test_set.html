@@ -1,0 +1,30 @@
+{% extends "main.html" %} {%block title%}Set test{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2>Set Test</h2>
+                <p>Test name: {{ test.name }}</p>
+                <p><a href="{% url 'specs:create_question' pk=test.pk %}">Add question</a></p>
+                <ol>
+                {% for question in questions %}
+                    
+                    
+                        <li><p><h5><b>{{ question.name }}</b></h5></p>
+                        <p>Type: {{ question.get_type_display }}</p>
+                        <a href="{% url 'specs:update_question' pk=question.pk %}" class="btn btn-primary">Edit </a>
+                        <form action="{% url 'specs:delete_question' pk=question.pk %}" method="post">
+                            {%  csrf_token %}
+                            <input type="hidden" name="pk" value="{{ question.pk }}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form></li>
+                    
+                    
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+{% endblock %}

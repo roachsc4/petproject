@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserChangeForm
 from django.views.generic.edit import FormView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -76,7 +76,7 @@ class TraineeInfoCreateView(FormView):
         #import ipdb; ipdb.set_trace(context=7)
         #form.save()
 
-        return super(TraineeInfoCreateView, self).form_valid(form)
+        #return super(TraineeInfoCreateView, self).form_valid(form)
 
     #def form_invalid(self, form):
         #import ipdb;ipdb.set_trace()
@@ -84,6 +84,23 @@ class TraineeInfoCreateView(FormView):
 
         #import ipdb;
         #ipdb.set_trace()
+
+
+@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
+class TraineeInfoUpdateView(UpdateView):
+    model = TraineeInfo
+    form_class = TraineeInfoForm
+    template_name = 'users/edit_profile.html'
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, *args, **kwargs):
+        trainee_info = get_object_or_404(TraineeInfo, user=self.request.user)
+        return trainee_info
+
+    def get_form_kwargs(self):
+        kwargs = super(TraineeInfoUpdateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
 
 
 @login_required(login_url=reverse_lazy('users:login'))

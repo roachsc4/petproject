@@ -102,7 +102,7 @@ class Question(models.Model):
     name = models.CharField(max_length=50)
     content = models.TextField(max_length=2000, blank=True, null=True)
     type = models.SmallIntegerField(choices=TYPE_CHOICES)
-    additional_params = JSONField()
+    additional_params = JSONField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
