@@ -90,3 +90,5 @@ ENV/
 
 # Config
 config.ini
+
+node_modules/
