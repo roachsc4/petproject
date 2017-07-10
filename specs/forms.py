@@ -1,5 +1,6 @@
 from django import forms
-from specs.models import Lesson, Test, Question
+from django.shortcuts import get_object_or_404
+from specs.models import Lesson, Test, Question, Answer
 
 
 class LessonCreateForm(forms.ModelForm):
@@ -29,3 +30,10 @@ class QuestionCreateForm(forms.ModelForm):
     class Meta:
         model = Question
         exclude = ['created', 'updated']
+
+
+class AnswerCreateForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        exclude = ['question', 'created', 'updated']
+

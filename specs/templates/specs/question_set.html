@@ -1,0 +1,31 @@
+{% extends "main.html" %} {%block title%}Настройка вопроса{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2>Настройка вопроса</h2>
+                <p>Название вопроса: {{ question.name }}</p>
+                <p><a href="{% url 'specs:create_answer' pk=question.pk %}">Добавить ответ</a></p>
+                <ol>
+                {% for answer in answers %}
+                    
+                    
+                        <li><p><h5><b>{{ answer.name }}</b></h5></p>
+                        <p>Правильный: {{ answer.is_right|yesno:"Да, Нет" }}</p>
+                        <a href="{% url 'specs:update_answer' pk=answer.pk %}" class="btn btn-primary">Изменить </a>
+                        <form action="{% url 'specs:delete_answer' pk=answer.pk %}" method="post">
+                            {%  csrf_token %}
+                            <input type="hidden" name="pk" value="{{ question.pk }}">
+                            <button class="btn btn-danger" type="submit">Удалить</button>
+                        </form>
+                        </li>
+                    
+                    
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+{% endblock %}

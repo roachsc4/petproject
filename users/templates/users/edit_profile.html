@@ -1,0 +1,29 @@
+{% extends "main.html" %} {%block title%}Редактирование профиля{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h2>Редактирование профиля</h2>
+                <form method="POST" class="post-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="save btn btn-default">OK</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+  $(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2012",
+      // You can put more options here.
+
+    });
+  });
+  </script>
+{% endblock %}

@@ -21,10 +21,10 @@ class Spec(models.Model):
 
 class Lesson(models.Model):
     trainee = models.ManyToManyField(User, through='TraineeLesson', blank=True)
-    name = models.CharField(max_length=50)
-    spec = models.ForeignKey(Spec, on_delete=models.CASCADE)
-    dsc = models.TextField(max_length=500)
-    iframe_link = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=50, verbose_name=u'Название')
+    spec = models.ForeignKey(Spec, on_delete=models.CASCADE, verbose_name=u'Специальность')
+    dsc = models.TextField(max_length=500, verbose_name=u'Описание')
+    iframe_link = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Ссылка на iframe')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -40,7 +40,7 @@ class TraineeLesson(models.Model):
 
     trainee = models.ForeignKey(User, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    pass_date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     status = models.SmallIntegerField(choices=STATUS_CHOICES)
 
 
@@ -65,10 +65,10 @@ class Attachment(models.Model):
 
 class Test(models.Model):
     trainee = models.ManyToManyField(User, through='TraineeTest')
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    min_score = models.SmallIntegerField()
-    max_score = models.SmallIntegerField()
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name=u'Урок')
+    name = models.CharField(max_length=50, verbose_name=u'Название')
+    min_score = models.SmallIntegerField(verbose_name=u'Минимальный проходной балл')
+    max_score = models.SmallIntegerField(verbose_name=u'Максимальный балл')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -87,7 +87,7 @@ class TraineeTest(models.Model):
     trainee = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     status = models.SmallIntegerField(choices=STATUS_CHOICES)
-    pass_date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
 
 class Question(models.Model):

@@ -1,0 +1,45 @@
+{% extends "main.html" %} {%block title%}Вакансии{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Вакансии</h2>
+                {% if user.is_authenticated and user.is_admin %}
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'vacancies:create' %}">Добавить вакансию</a></li>
+                        <li class="list-group-item"><a href="{% url 'specs:create_spec' %}">Создать специальность</a></li>
+                        <li class="list-group-item"><a href="{% url 'specs:create_spec_type' %}">Создать тип специальности</a></li>
+                    </ul>
+                {% endif %}
+
+                {% for vacancy in object_list %}
+                    <ul>
+                        <li class="list-group-item">
+                            <h3>{{ vacancy.name }}</h3>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'vacancies:update' pk=vacancy.pk %}" class="btn btn-primary">Изменить </a>
+                                <form action="{% url 'vacancies:delete' pk=vacancy.pk %}" method="post">
+                                    {%  csrf_token %}
+                                    <input type="hidden" name="pk" value="{{ vacancy.pk }}">
+                                    <button class="btn btn-danger" type="submit">Удалить</button>
+                                </form>
+                            {% endif %}
+                        </li>
+
+                        <li class="list-group-item"><b>Тип занятости:</b> {{ vacancy.get_type_display }}</li>
+                        <li class="list-group-item">{{ vacancy.dsc }}</li>
+                        <li class="list-group-item"><b>Дата создания:</b> {{ vacancy.created|date:"d.m.Y" }}</li>
+                        <li class="list-group-item"><b>Возможность удаленной работы:</b> {{ vacancy.is_remote|yesno:"Да,Нет" }}</li>
+                    </ul>
+                {% empty %}
+                    <ul>
+                        <li>Пока что нет вакансий.</li>
+                    </ul>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

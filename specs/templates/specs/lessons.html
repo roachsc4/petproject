@@ -1,0 +1,45 @@
+{% extends "main.html" %} {%block title%}Уроки{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Уроки</h2>
+                {% if user.is_authenticated and user.is_admin %}
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'specs:create_lesson' %}">Добавить новый урок</a></li>
+                        <li class="list-group-item"><a href="{% url 'specs:create_spec' %}">Создать новую специальность</a></li>
+                        <li class="list-group-item"><a href="{% url 'specs:create_spec_type' %}">Создать новый тип специальности</a></li>
+                    </ul>
+                {% endif %}
+
+                {% for lesson in object_list %}
+                    <ul>
+                        <li class="list-group-item">
+                            <h3><a href="{% url 'specs:lesson_detail' pk=lesson.pk %}"> {{ lesson.name }}</a></h3>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'specs:update_lesson' pk=lesson.pk %}" class="btn btn-primary">Изменить </a>
+                                <form action="{% url 'specs:delete_lesson' pk=lesson.pk %}" method="post">
+                                    {%  csrf_token %}
+                                    <input type="hidden" name="pk" value="{{ lesson.pk }}">
+                                    <button class="btn btn-danger" type="submit">Удалить</button>
+                                </form>
+                            {% endif %}
+                        </li>
+
+
+                        <li class="list-group-item">{{ lesson.dsc }}</li>
+                        <li class="list-group-item"><b>Дата создания:</b> {{ lesson.created|date:"d.m.Y" }}</li>
+
+                    </ul>
+                {% empty %}
+                    <ul>
+                        <li>Пока еще нет уроков</li>
+                    </ul>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

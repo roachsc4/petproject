@@ -56,17 +56,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class TraineeInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    f = models.CharField(max_length=30)
-    i = models.CharField(max_length=30)
-    o = models.CharField(max_length=30)
-    birth_date = models.DateField()
-    address = models.CharField(max_length=150)
-    education = models.CharField(max_length=150)
+    f = models.CharField(max_length=30, verbose_name=u'Фамилия')
+    i = models.CharField(max_length=30, verbose_name=u'Имя')
+    o = models.CharField(max_length=30, verbose_name=u'Отчество')
+    birth_date = models.DateField(verbose_name=u'Дата рождения')
+    address = models.CharField(max_length=150, verbose_name=u'Адрес')
+    education = models.CharField(max_length=150, verbose_name=u'Образование')
 
     phone_regex = RegexValidator(regex='^(\+7)|8\d{10}$',
                                  message="Phone number must be entered in the format: '+79001234567' or '89001234567'")
-    phone = models.CharField(validators=[phone_regex], max_length=12)
-    dsc = models.TextField(max_length=2000)
+    phone = models.CharField(validators=[phone_regex], max_length=12, verbose_name=u'Телефон')
+    dsc = models.TextField(max_length=2000, verbose_name=u'О себе')
 
     def __str__(self):
         return self.f + ' ' + self.i + ' ' + self.o

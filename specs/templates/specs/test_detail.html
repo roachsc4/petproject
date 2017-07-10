@@ -1,0 +1,33 @@
+{% extends "main.html" %} {%block title%}Тест{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2>{{ object.name }}</h2>
+                <p>Урок: {{ object.lesson.name }}</p>
+                <p>Минимальный проходной балл: {{ object.min_score }}</p>
+                <p>Максимальный балл: {{ object.max_score }}</p>
+
+                {% if test_status %}
+                    <p>Статус выполнения: {{ object.get_status_display }}</p>
+                {% endif %}
+                {% comment 'comment %}
+                <form method="post" action="{% url 'specs:pass_lesson' pk=object.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Finish</button>
+                </form>
+                {% else %}
+                    <p><button type="button" class="btn btn-success disabled">Finished</button></p>
+                {% endif %}
+                {% endcomment %}
+
+                {% if user.is_superuser %}
+                    <a href="{% url 'specs:set_test' pk=object.pk %}" class="btn btn-primary">Настроить тест</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "main.html" %} {%block title%}Тесты{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Тесты</h2>
+
+                {% if user.is_authenticated and user.is_admin %}
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'specs:create_test_wo_pk'  %}">Создать тест</a></li>
+                    </ul>
+                {% endif %}
+
+                {% for test in object_list %}
+                    <ul>
+                        <li class="list-group-item">
+                            <h3><a href="{% url 'specs:test_detail' pk=test.pk %}"> {{ test.name }}</a></h3>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'specs:update_test' pk=test.pk %}" class="btn btn-primary">Изменить </a>
+                                <form action="{% url 'specs:delete_test' pk=test.pk %}" method="post">
+                                    {%  csrf_token %}
+                                    <input type="hidden" name="pk" value="{{ test.pk }}">
+                                    <button class="btn btn-danger" type="submit">Удалить</button>
+                                </form>
+                            {% endif %}
+                        </li>
+
+
+                        <li class="list-group-item"><b>Минимальный проходной балл:</b> {{ test.min_score }}</li>
+                        <li class="list-group-item"><b>Дата создания:</b> {{ test.created }}</li>
+
+                    </ul>
+                {% empty %}
+                    <ul>
+                        <li>Пока еще нет тестов</li>
+                    </ul>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

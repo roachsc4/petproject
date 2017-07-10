@@ -1,26 +1,20 @@
-from django.views.generic.edit import FormView, UpdateView, CreateView, DeleteView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic.list import ListView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from vacancies.models import Vacancy
 from vacancies.forms import VacancyCreateForm, VacancyUpdateForm
-from django.utils import timezone
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
 
 class VacancyListView(ListView):
     model = Vacancy
     template_name = 'vacancies/vacancies.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(VacancyListView, self).get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        return context
 
+class VacancyCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('users:login')
 
-@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
-class VacancyCreateView(CreateView):
     model = Vacancy
     form_class = VacancyCreateForm
     template_name = 'vacancies/create_vacancy.html'
@@ -32,8 +26,9 @@ class VacancyCreateView(CreateView):
         return kwargs
 
 
-@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
-class VacancyUpdateView(UpdateView):
+class VacancyUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('users:login')
+
     model = Vacancy
     form_class = VacancyUpdateForm
     template_name = 'vacancies/create_vacancy.html'
@@ -43,15 +38,13 @@ class VacancyUpdateView(UpdateView):
         vacancy = get_object_or_404(Vacancy, pk=self.kwargs['pk'])
         return vacancy
 
-    #def get(self, request, pk):
-        #return redirect(reverse_lazy('vacancies:vacancies'))
 
+class VacancyDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('users:login')
 
-@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
-class VacancyDeleteView(DeleteView):
     model = Vacancy
     success_url = reverse_lazy('vacancies:vacancies')
 
     def get(self, request, pk):
-        return redirect(reverse_lazy('vacancies:vacancies'))
+        raise NotImplemented
 

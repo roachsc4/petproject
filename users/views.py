@@ -1,20 +1,19 @@
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserChangeForm
-from django.views.generic.edit import FormView, UpdateView, CreateView
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.views.generic.edit import FormView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views.generic.base import View, TemplateView
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
 
 from users.forms import UserCreationForm, TraineeInfoForm
-from users.models import TraineeInfo, User
+from users.models import TraineeInfo
 
 
 class LoginFormView(FormView):
@@ -38,7 +37,9 @@ class RegisterFormView(FormView):
         return super(RegisterFormView, self).form_valid(form)
 
 
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('users:login')
+
     def post(self, request):
         # Выполняем выход для пользователя, запросившего данное представление.
         logout(request)
@@ -47,8 +48,9 @@ class LogoutView(View):
         return HttpResponseRedirect("/")
 
 
-@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
-class ProfileView(TemplateView, LoginRequiredMixin):
+class ProfileView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('users:login')
+
     template_name = 'users/profile.html'
 
     def get_context_data(self, **kwargs):
@@ -61,8 +63,9 @@ class ProfileView(TemplateView, LoginRequiredMixin):
         return context
 
 
-@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
-class TraineeInfoCreateView(FormView):
+class TraineeInfoCreateView(LoginRequiredMixin, FormView):
+    login_url = reverse_lazy('users:login')
+
     form_class = TraineeInfoForm
     template_name = 'users/edit_profile.html'
     success_url = reverse_lazy('users:profile')
@@ -72,22 +75,14 @@ class TraineeInfoCreateView(FormView):
         kwargs.update({'request': self.request})
         return kwargs
 
-    #def form_valid(self, form):
-        #import ipdb; ipdb.set_trace(context=7)
-        #form.save()
-
-        #return super(TraineeInfoCreateView, self).form_valid(form)
-
-    #def form_invalid(self, form):
-        #import ipdb;ipdb.set_trace()
-        #return super(TraineeInfoCreateView, self).form_invalid(form)
-
-        #import ipdb;
-        #ipdb.set_trace()
+    def form_valid(self, form):
+        form.save()
+        return super(TraineeInfoCreateView, self).form_valid(form)
 
 
-@method_decorator(login_required(login_url=reverse_lazy('users:login')), name='dispatch')
-class TraineeInfoUpdateView(UpdateView):
+class TraineeInfoUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('users:login')
+
     model = TraineeInfo
     form_class = TraineeInfoForm
     template_name = 'users/edit_profile.html'
