@@ -90,3 +90,6 @@ ENV/
 
 # Config
 config.ini
+#Static
+static/
+mode_modules/
