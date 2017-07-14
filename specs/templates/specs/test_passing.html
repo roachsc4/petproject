@@ -1,0 +1,33 @@
+{% extends "main.html" %} {%block title%}Тесты{% endblock %}
+{% load static %}
+{% load widget_tweaks %}
+{% block javascript %}
+    <script src="{% static 'js/tests.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="page-header">Прохождение теста <strong>{{ question.test.name }}</strong></h2>
+
+                <p><h4><strong>{{ question_number }}. {{ question.name }}</strong></h4></p>
+
+
+                    
+                  <div id="test-form">
+                      <form method="post" class="post-form">
+                      {% csrf_token %}
+{#                          {% for answer in form.answers %}#}
+{#                              <div class="radio">{{ answer }}</div>#}
+{#                          {% endfor %}#}
+                          {{ form.as_p }}
+                          <button type="submit" class="btn btn-primary js-next">Далее</button>
+                      </form>
+                  </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

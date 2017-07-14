@@ -126,7 +126,7 @@ class TraineeAnswer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     trainee_test = models.ForeignKey(TraineeTest, on_delete=models.CASCADE)
-    additional_params = JSONField()
+    additional_params = JSONField(blank=True, null=True)
     is_right = models.BooleanField()
 
     def __str__(self):

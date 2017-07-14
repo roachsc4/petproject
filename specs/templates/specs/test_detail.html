@@ -1,5 +1,5 @@
 {% extends "main.html" %} {%block title%}Тест{% endblock %}
-
+{% load static %}
 {% block content %}
 
     <div class="container">
@@ -10,24 +10,30 @@
                 <p>Минимальный проходной балл: {{ object.min_score }}</p>
                 <p>Максимальный балл: {{ object.max_score }}</p>
 
-                {% if test_status %}
-                    <p>Статус выполнения: {{ object.get_status_display }}</p>
+                {% if trainee_test %}
+                    <p>Статус выполнения: {{ trainee_test.get_status_display }}</p>
                 {% endif %}
-                {% comment 'comment %}
-                <form method="post" action="{% url 'specs:pass_lesson' pk=object.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Finish</button>
-                </form>
-                {% else %}
-                    <p><button type="button" class="btn btn-success disabled">Finished</button></p>
-                {% endif %}
-                {% endcomment %}
 
                 {% if user.is_superuser %}
                     <a href="{% url 'specs:set_test' pk=object.pk %}" class="btn btn-primary">Настроить тест</a>
                 {% endif %}
 
+                <button type="button" class="btn btn-primary js-start-test" data-url="{% url 'specs:start_test' pk=object.pk %}">
+                    Начать тест
+                </button>
+
+                <div class="modal fade" id="modal-test">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/tests.js' %}"></script>
 {% endblock %}

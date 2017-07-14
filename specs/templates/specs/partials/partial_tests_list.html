@@ -1,0 +1,24 @@
+{% for test in object_list %}
+    <ul>
+        <li class="list-group-item">
+            <h3><a href="{% url 'specs:test_detail' pk=test.pk %}"> {{ test.name }}</a></h3>
+            {% if user.is_superuser %}
+                <button type="button" class="btn btn-primary js-update-test" data-url="{% url 'specs:update_test_ajax' test.pk %}">
+                    Изменить
+                </button>
+                <button type="button" class="btn btn-danger js-delete-test" data-url="{% url 'specs:delete_test_ajax' pk=test.pk %}">
+                    Удалить
+                </button>
+            {% endif %}
+        </li>
+
+
+        <li class="list-group-item"><b>Минимальный проходной балл:</b> {{ test.min_score }}</li>
+        <li class="list-group-item"><b>Дата создания:</b> {{ test.created }}</li>
+
+    </ul>
+{% empty %}
+    <ul>
+        <li>Пока еще нет тестов</li>
+    </ul>
+{% endfor %}
