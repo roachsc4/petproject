@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'specs',
     'vacancies',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -52,12 +57,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'trainee.urls'
+ROOT_URLCONF = 'application.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'trainee.wsgi.application'
+WSGI_APPLICATION = 'application.wsgi.application'
 
 
 # Database
@@ -78,8 +83,12 @@ WSGI_APPLICATION = 'trainee.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config['db']['NAME'],
+        'USER': config['db']['USER'],
+        'PASSWORD': config['db']['PASSWORD'],
+        'HOST': config['db']['HOST'],
+        'PORT': config['db']['PORT'],
     }
 }
 
@@ -123,3 +132,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.User'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "node_modules"),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

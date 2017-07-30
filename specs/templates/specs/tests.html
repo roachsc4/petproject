@@ -1,0 +1,33 @@
+{% extends "main.html" %} {%block title%}Тесты{% endblock %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'js/tests.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="page-header">Тесты</h2>
+
+                {% if user.is_authenticated and user.is_admin %}
+                    <button type="button"  class="btn btn-primary js-create-test" data-url="{% url 'specs:create_test_ajax' %}">
+                        <span class="glyphicon glyphicon-plus"></span>Создать тест
+                    </button>
+                {% endif %}
+                <p></p>
+                <div id="tests-list">
+                    {% include 'specs/partials/partial_tests_list.html' %}
+                </div>
+                <div class="modal fade" id="modal-test">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

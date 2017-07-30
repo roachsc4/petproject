@@ -87,3 +87,14 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Config
+config.ini
+<<<<<<< HEAD
+#Static
+static/
+mode_modules/
+=======
+
+node_modules/
+>>>>>>> 0d1105ad67ec8810d0f56b325ad2e8db2bc7ce4d
